@@ -13,6 +13,7 @@ const App = () => {
 
   const [to, setTo] = useState('');
   const [from, setFrom] = useState('');
+  const [options, setOptions] = useState('');
   const [inputText, setText] = useState('');
   const [responseText, setResponse] = useState('');
 
@@ -25,7 +26,8 @@ const App = () => {
       axios.get('https://libretranslate.com/languages',
       {headers:{'accept':'application/json'}})
       .then(res=>{
-        console.log(res);
+        console.log(res.data);
+        setOptions(res.data);
       })
     })
   
