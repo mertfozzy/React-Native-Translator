@@ -41,8 +41,9 @@ const App = () => {
       }],
       responseType: 'json'
     }).then(function(response){
-      console.log(JSON.stringify(response.data, null, 4));
-      setResponse(JSON.stringify(response.data, null, 4));
+      //console.log(JSON.stringify(response.data, null, 4));
+      console.log(JSON.stringify(response.data[0].translations[0].text, null, 4));
+      setResponse(JSON.stringify(response.data[0].translations[0].text, null, 4));
     })
 
 
@@ -59,7 +60,7 @@ const App = () => {
             <TextInput
               numberOfLines={5}
               multiline={true}
-              style={{ height: 120, borderColor: 'gray', borderWidth: 1 }}
+              style={{ height: 120, borderColor: 'gray', borderWidth: 1, fontSize: 20 }}
               onChangeText={text => setText(text)}
             />
             <Button
@@ -68,7 +69,7 @@ const App = () => {
               onPress={() => postTranslateService(inputText)}
             />
             <Text
-              style={{ height: 120, borderColor: 'gray', borderWidth: 1 }}
+              style={{ height: 120, borderColor: 'gray', borderWidth: 1, fontSize: 20 }}
             >{'Response: ' + responseText}</Text>
           </View>
         </ScrollView>
