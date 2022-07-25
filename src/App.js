@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Text } from 'react-native';
+import { Button, Pressable, Text } from 'react-native';
 import { StyleSheet, SafeAreaView } from 'react-native';
 
 const axios = require('axios').default;
@@ -18,7 +18,7 @@ const App = () => {
   let endpoint = "https://api.cognitive.microsofttranslator.com";
   let location = "eastus";
 
- 
+
   postTranslateService();
 
   function postTranslateService(text) {
@@ -40,7 +40,7 @@ const App = () => {
         'text': text
       }],
       responseType: 'json'
-    }).then(function(response){
+    }).then(function (response) {
       //console.log(JSON.stringify(response.data, null, 4));
       console.log(JSON.stringify(response.data[0].translations[0].text, null, 4));
       setResponse(JSON.stringify(response.data[0].translations[0].text, null, 4));
@@ -51,32 +51,93 @@ const App = () => {
   };
 
   return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <View>
-            <Text> EN - TR </Text>
-            <TextInput
-              numberOfLines={5}
-              multiline={true}
-              style={{ height: 120, borderColor: 'gray', borderWidth: 1, fontSize: 20 }}
-              onChangeText={text => setText(text)}
-            />
-            <Button
-              title='Translate'
-              color='#ff6600'
-              onPress={() => postTranslateService(inputText)}
-            />
-            <Text
-              style={{ height: 120, borderColor: 'gray', borderWidth: 1, fontSize: 20 }}
-            >{'Response: ' + responseText}</Text>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text> EN - TR </Text>
+        <View style={styles.inputView}>
+          <TextInput
+            placeholder="Type something to translate."
+            multiline={true}
+            onChangeText={text => setText(text)}
+            style={styles.input}
+          />
+        </View>
+        <Button
+          title='Translate'
+          color='#04aeec'
+          style={styles.buttonStyle}
+          onPress={() => postTranslateService(inputText)}
+        />
+        <View style={styles.line}></View>
+        <View style={styles.outputView}>
+          <Text
+            placeholder="Translation will be here."
+            style={styles.output}
+          >
+            {responseText}
+          </Text>
+        </View>
+
+
+      </ScrollView>
+
+    </View>
   );
 
+
+
+
+
 };
+
+const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+    flex: 1,
+    margin: 15,
+    backgroundColor: "transparent",
+  },
+  line: {
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
+    opacity: 0.1,
+    marginTop: 10,
+
+  },
+  inputView: {
+    flex: 0,
+    flexDirection: "row",
+  },
+  input: {
+    fontSize: 24,
+    paddingBottom: 48,
+    width: "90%",
+  },
+  outputView: {
+    flex: 0,
+    flexDirection: "row",
+    marginTop: 20,
+  },
+  output: {
+    fontSize: 24,
+    paddingBottom: 48,
+    marginLeft: 4,
+    marginRight: -4,
+    width: "90%",
+    color: "#1377b3"
+  },
+  buttonStyle: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#04aeec'
+  }
+
+});
+
+
 
 export default App;
