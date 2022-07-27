@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Pressable, Text } from 'react-native';
+import { Button, Pressable, Text, TouchableOpacity } from 'react-native';
 import { StyleSheet, SafeAreaView } from 'react-native';
 
 const axios = require('axios').default;
@@ -13,6 +13,7 @@ const App = () => {
 
   const [inputText, setText] = useState('');
   const [responseText, setResponse] = useState('');
+  const [detectLanguage, setLanguage] = useState('');
 
   let key = "6dc546ea8df4448d87b5a2593bed48be";
   let endpoint = "https://api.cognitive.microsofttranslator.com";
@@ -33,7 +34,6 @@ const App = () => {
       },
       params: {
         'api-version': '3.0',
-        'from': 'en',
         'to': ['tr']
       },
       data: [{
@@ -42,7 +42,8 @@ const App = () => {
       responseType: 'json'
     }).then(function (response) {
       //console.log(JSON.stringify(response.data, null, 4));
-      console.log(JSON.stringify(response.data[0].translations[0].text, null, 4));
+      console.log(JSON.stringify(response.data[0].detectedLanguage.language, null, 4));
+      setLanguage(JSON.stringify(response.data[0].detectedLanguage.language, null, 4));
       setResponse(JSON.stringify(response.data[0].translations[0].text, null, 4));
     })
 
@@ -53,7 +54,7 @@ const App = () => {
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text> EN - TR </Text>
+        <Text style={styles.header}>- Otomatik Dil Algılama -</Text>
         <View style={styles.inputView}>
           <TextInput
             placeholder="Type something to translate."
@@ -62,12 +63,14 @@ const App = () => {
             style={styles.input}
           />
         </View>
-        <Button
+        <TouchableOpacity
           title='Translate'
           color='#04aeec'
           style={styles.buttonStyle}
           onPress={() => postTranslateService(inputText)}
-        />
+        >
+          <Text style={styles.btnText}>Translate</Text>
+        </TouchableOpacity>
         <View style={styles.line}></View>
         <View style={styles.outputView}>
           <Text
@@ -77,32 +80,44 @@ const App = () => {
             {responseText}
           </Text>
         </View>
-
-
+        <Text style={styles.detected}>Algılanan Dil : {detectLanguage}</Text>
+        <View style={styles.line}></View>
       </ScrollView>
-
     </View>
   );
-
-
-
-
 
 };
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 30,
     height: "100%",
     flex: 1,
     margin: 15,
     backgroundColor: "transparent",
+  },
+  header: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    flex: 0,
+    flexDirection: "row",
+    fontSize: 15
+  },
+  detected: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    flex: 0,
+    flexDirection: "row",
+    fontSize: 18,
+    fontWeight: 'bold'
   },
   line: {
     borderBottomColor: "black",
     borderBottomWidth: 1,
     opacity: 0.1,
     marginTop: 10,
-
   },
   inputView: {
     flex: 0,
@@ -131,9 +146,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 10,
     paddingHorizontal: 30,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: '#04aeec'
+    backgroundColor: '#04aeec',
+    borderRadius: 20
+  },
+  btnText: {
+    color: "white",
+    fontSize: 20,
+    padding: 3
   }
 
 });
