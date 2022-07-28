@@ -17,6 +17,7 @@
     "react-native-element-dropdown": "^2.0.0",
     "react-native-get-random-values": "^1.8.0",
     "react-native-select-dropdown": "^2.0.4",
+    "react-native-tts": "^4.1.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

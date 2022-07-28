@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Pressable, Text, TouchableOpacity } from 'react-native';
+import { Button, Pressable, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { StyleSheet, SafeAreaView } from 'react-native';
+import Tts from 'react-native-tts';
 
 const axios = require('axios').default;
 const { useState, Fragment } = require("react");
@@ -14,6 +15,11 @@ const App = () => {
   const [inputText, setText] = useState('');
   const [responseText, setResponse] = useState('');
   const [detectLanguage, setLanguage] = useState('');
+
+  const handleVoice = () => {
+    console.log("buraya geldi.")
+    Tts.speak("If you like this video.");
+  }
 
   let key = "6dc546ea8df4448d87b5a2593bed48be";
   let endpoint = "https://api.cognitive.microsofttranslator.com";
@@ -82,6 +88,15 @@ const App = () => {
         </View>
         <Text style={styles.detected}>Algılanan Dil : {detectLanguage}</Text>
         <View style={styles.line}></View>
+
+        <TouchableHighlight 
+        style={styles.voiceButton} 
+        onPress={() => handleVoice()}>
+      
+          <Text style={styles.btnText}>Hello world</Text>
+      
+        </TouchableHighlight>
+      
       </ScrollView>
     </View>
   );
@@ -153,6 +168,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     padding: 3
+  },
+  voiceButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    backgroundColor: '#04aeec',
+    borderRadius: 20
   }
 
 });
