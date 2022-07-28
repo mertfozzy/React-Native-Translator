@@ -15,9 +15,9 @@ const App = () => {
   const [inputText, setText] = useState('');
   const [responseText, setResponse] = useState('');
   const [detectLanguage, setLanguage] = useState('');
+  const [shouldShow, setShouldShow] = useState('');
 
   const handleVoice = () => {
-    console.log("buraya geldi.")
     Tts.speak(inputText);
   }
 
@@ -25,8 +25,6 @@ const App = () => {
   let endpoint = "https://api.cognitive.microsofttranslator.com";
   let location = "eastus";
 
-
-  postTranslateService();
 
   function postTranslateService(text) {
 
@@ -51,11 +49,13 @@ const App = () => {
       console.log(JSON.stringify(response.data[0].detectedLanguage.language, null, 4));
       setLanguage(JSON.stringify(response.data[0].detectedLanguage.language, null, 4));
       setResponse(JSON.stringify(response.data[0].translations[0].text, null, 4));
+
     })
 
-
+    setShouldShow(!shouldShow);
 
   };
+
 
   return (
     <View style={styles.container}>
@@ -69,11 +69,16 @@ const App = () => {
             style={styles.input}
           />
         </View>
+
+
+
+
         <TouchableOpacity
           title='Translate'
           color='#04aeec'
           style={styles.buttonStyle}
           onPress={() => postTranslateService(inputText)}
+        //onPress={() => }
         >
           <Text style={styles.btnText}>Translate</Text>
         </TouchableOpacity>
@@ -86,15 +91,25 @@ const App = () => {
             {responseText}
           </Text>
         </View>
-        <View style={{flexDirection: "row"}}>
-          <Text style={styles.detected} >Algılanan Dil :
-          </Text>
-          <TouchableHighlight
-              style={styles.voiceButton}
-              onPress={() => handleVoice()}>
-              <Text style={styles.voiceBtnText} placeholder="Telaffuz">{detectLanguage}</Text>
-            </TouchableHighlight>
+
+
+
+        <View>
+          {
+            shouldShow ? (
+              <View style={{ flexDirection: "row" }}>
+                <Text style={styles.detected}> --&gt; Algılanan Dil :
+                </Text>
+                <TouchableHighlight
+                  style={styles.voiceButton}
+                  onPress={() => handleVoice()}>
+                  <Text style={styles.voiceBtnText}>{detectLanguage}</Text>
+                </TouchableHighlight>
+              </View>
+            ) : null
+          }
         </View>
+
 
       </ScrollView>
     </View>
@@ -157,7 +172,6 @@ const styles = StyleSheet.create({
   detected: {
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
     flex: 1,
     flexDirection: "row",
     fontSize: 18,
