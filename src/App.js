@@ -69,10 +69,6 @@ const App = () => {
             style={styles.input}
           />
         </View>
-
-
-
-
         <TouchableOpacity
           title='Translate'
           color='#04aeec'
@@ -91,9 +87,6 @@ const App = () => {
             {responseText}
           </Text>
         </View>
-
-
-
         <View>
           {
             shouldShow ? (
@@ -109,8 +102,6 @@ const App = () => {
             ) : null
           }
         </View>
-
-
       </ScrollView>
     </View>
   );
@@ -196,7 +187,6 @@ const styles = StyleSheet.create({
     padding: 4,
     width: "100%"
   }
-
 });
 
 
