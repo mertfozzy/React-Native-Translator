@@ -18,7 +18,7 @@ const App = () => {
 
   const handleVoice = () => {
     console.log("buraya geldi.")
-    Tts.speak("If you like this video.");
+    Tts.speak(inputText);
   }
 
   let key = "6dc546ea8df4448d87b5a2593bed48be";
@@ -86,17 +86,16 @@ const App = () => {
             {responseText}
           </Text>
         </View>
-        <Text style={styles.detected}>Algılanan Dil : {detectLanguage}</Text>
-        <View style={styles.line}></View>
+        <View style={{flexDirection: "row"}}>
+          <Text style={styles.detected} >Algılanan Dil :
+          </Text>
+          <TouchableHighlight
+              style={styles.voiceButton}
+              onPress={() => handleVoice()}>
+              <Text style={styles.voiceBtnText} placeholder="Telaffuz">{detectLanguage}</Text>
+            </TouchableHighlight>
+        </View>
 
-        <TouchableHighlight 
-        style={styles.voiceButton} 
-        onPress={() => handleVoice()}>
-      
-          <Text style={styles.btnText}>Hello world</Text>
-      
-        </TouchableHighlight>
-      
       </ScrollView>
     </View>
   );
@@ -118,15 +117,6 @@ const styles = StyleSheet.create({
     flex: 0,
     flexDirection: "row",
     fontSize: 15
-  },
-  detected: {
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-    flex: 0,
-    flexDirection: "row",
-    fontSize: 18,
-    fontWeight: 'bold'
   },
   line: {
     borderBottomColor: "black",
@@ -164,18 +154,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#04aeec',
     borderRadius: 20
   },
+  detected: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    flex: 1,
+    flexDirection: "row",
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
   btnText: {
     color: "white",
     fontSize: 20,
     padding: 3
   },
+  voiceBtnText: {
+    color: "white",
+    fontSize: 18,
+  },
   voiceButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 1,
     backgroundColor: '#04aeec',
-    borderRadius: 20
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row",
+    padding: 4,
+    width: "100%"
   }
 
 });
